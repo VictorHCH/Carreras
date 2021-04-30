@@ -6,7 +6,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         text = QLabel("Bienvenido")
-        self.setCentralWidget(text)
+        text2 = QLabel("Esta es una alfa!")
+        lo = QHBoxLayout()
+        lo.addWidget(text)
+        lo.addWidget(text2)
+        widget = QWidget()
+        widget.setLayout(lo)
+        self.setCentralWidget(widget)
 
 
 app = QApplication(sys.argv)
