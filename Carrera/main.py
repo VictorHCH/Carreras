@@ -3,17 +3,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-<<<<<<< HEAD
-class WorkerSignal(QObject):
-    """ Define las señales disponibles desde la ejecucion de la Tarea  (hilo)"""
 
-    progress = pyqtSignal(int)
-
-
-class Worker(QRunnable):
-=======
 class MainWindow(QMainWindow):
->>>>>>> parent of e35213c (Version beta 1.0)
     def __init__(self):
         super().__init__()
 
@@ -83,7 +74,7 @@ class MainWindow(QMainWindow):
         titulo.setAttribute(Qt.WA_TranslucentBackground, True)
         titulo.setPixmap(pixmap)
         titulo.resize(1000, 1000)
-        titulo.move(370 / 2 - 150 / 2, - 540 / 2 - 40 / 2)
+        titulo.move(int(370 / 2 - 150 / 2), int(- 540 / 2 - 40 / 2))
 
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
