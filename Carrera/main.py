@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.resize(900, 600)
 
-        self.titulo = QLabel("                                                                                                                                       Carrera")
+        self.titulo = QLabel("Carrera")
         self.titulo.setFont(QFont("Segoe UI Light", 12))
         self.barra = QToolBar("barra de herramientas")
         self.barra.setIconSize(QSize(16, 16))
@@ -30,6 +30,10 @@ class MainWindow(QMainWindow):
                                  "border-bottom-right-radius: 0px")
 
  #---------------------------------Barra de tareas----------------------------------#
+        izquierda = QWidget()
+        izquierda.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        derecha = QWidget()
+        derecha.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         boton_accion = QAction(QIcon("Imagenes\Cerrar.png"), "Cerrar", self)
         boton_accion.triggered.connect(self.cerrar)
         self.barra.addAction(boton_accion)
@@ -38,7 +42,10 @@ class MainWindow(QMainWindow):
         boton_accion2.triggered.connect(self.minimizar)
         self.barra.addAction(boton_accion2)
         self.barra.setMovable(False)
+        self.barra.addWidget(izquierda)
         self.barra.addWidget(self.titulo)
+        self.barra.addWidget(derecha)
+
 
 #------------------------------------------Fondo---------------------------------------------------#
         pixmap = QPixmap("Imagenes\Banqueta.png")
