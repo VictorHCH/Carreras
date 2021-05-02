@@ -3,7 +3,17 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+<<<<<<< HEAD
+class WorkerSignal(QObject):
+    """ Define las señales disponibles desde la ejecucion de la Tarea  (hilo)"""
+
+    progress = pyqtSignal(int)
+
+
+class Worker(QRunnable):
+=======
 class MainWindow(QMainWindow):
+>>>>>>> parent of e35213c (Version beta 1.0)
     def __init__(self):
         super().__init__()
 
