@@ -81,6 +81,11 @@ class MainWindow(QMainWindow):
         titulo.resize(1000, 1000)
         titulo.move(int(370 / 2 - 150 / 2), int(- 540 / 2 - 40 / 2))
 
+# ------------------------------------------Cronometro------------------------------------------------#
+        self.lcd = QLCDNumber()
+        self.lcd.display(10)
+        self.lcd.move(int(370 / 2 - 150 / 2), int(- 100 / 2 - 40 / 2))
+
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
 
