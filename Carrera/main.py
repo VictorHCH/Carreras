@@ -11,10 +11,6 @@ class WorkerSignal(QObject):
 
 
 class Worker(QRunnable):
-    """Worker Thread
-
-        Inherits from QRunnable to """
-
     def __init__(self):
         super().__init__()
         self.signals = WorkerSignal()
