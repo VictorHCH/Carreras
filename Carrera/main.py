@@ -46,8 +46,6 @@ class MainWindow(QMainWindow):
         pixmap = pixmap.scaled(1200, 1200, Qt.KeepAspectRatio, Qt.FastTransformation)
         bg.setPixmap(pixmap)
 
-
-
         lo = QHBoxLayout()
         lo.addWidget(bg)
         widget = QWidget()
