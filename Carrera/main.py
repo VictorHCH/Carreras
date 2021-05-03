@@ -93,13 +93,13 @@ class MainWindow(QMainWindow):
         pixmap = pixmap.scaled(1000, 1000, Qt.KeepAspectRatio, Qt.FastTransformation)
         titulo.setAttribute(Qt.WA_TranslucentBackground, True)
         titulo.setPixmap(pixmap)
-        titulo.resize(1000, 1000)
-        titulo.move(int(370 / 2 - 150 / 2), int(- 540 / 2 - 40 / 2))
+        titulo.resize(1000, 130)
+        titulo.move(120, 150)
 
 # ------------------------------------------Cronometro------------------------------------------------#
         self.lcd = QLCDNumber(self)
         self.lcd.setAttribute(Qt.WA_TranslucentBackground, True)
-        self.lcd.display(0)
+        self.lcd.display("00:00")
         self.lcd.resize(200, 100)
         self.lcd.move(975, 50)
         self.timer = QTimer(self)
