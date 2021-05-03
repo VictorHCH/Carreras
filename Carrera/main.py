@@ -4,6 +4,20 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 
+class WorkerSignals(QObject):
+    data = pyqtSignal(tuple)
+
+
+class Worker(QRunnable):
+    def __init__(self):
+        super().__init__()
+        self.signals = WorkerSignals()
+
+    @pyqtSlot()
+    def run(self):
+        pass
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -82,9 +96,11 @@ class MainWindow(QMainWindow):
         titulo.move(int(370 / 2 - 150 / 2), int(- 540 / 2 - 40 / 2))
 
 # ------------------------------------------Cronometro------------------------------------------------#
-        self.lcd = QLCDNumber()
-        self.lcd.display(10)
-        self.lcd.move(int(370 / 2 - 150 / 2), int(- 100 / 2 - 40 / 2))
+        lcd = QLCDNumber(self)
+        lcd.setAttribute(Qt.WA_TranslucentBackground, True)
+        lcd.display(0)
+        lcd.resize(200, 100)
+        lcd.move(975, 50)
 
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
