@@ -75,16 +75,17 @@ class MainWindow(QMainWindow):
 # ------------------------------------------Boton------------------------------------------------#
    # Esta parte aun no la arreglo, el icono del boton no se asigna bien y no se hace transparente xD
     
-        #Prueba = QPushButton(self)
-        #botn = QPixmap("Imagenes\Boton.png")
-        #ico = QIcon(botn)
-        #Prueba.setIcon(ico)
-        #Prueba.setAttribute(Qt.WA_TranslucentBackground, True)
-        #Prueba.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        #Prueba.setIconSize(pixmap.rect().size())
-        #Prueba.resize(212, 200)
-        #Prueba.setStyleSheet("border-radius: 5px; color: white; background: rgb(165,165,165); border: 2px solid white;")
-        #Prueba.move(950 / 2 - 150 / 2, 780 / 2 - 40 / 2)
+        Prueba = QPushButton(self)
+        botn = QPixmap("Imagenes\Boton.png")
+        ico = QIcon(botn)
+        Prueba.setIcon(ico)
+        Prueba.setAttribute(Qt.WA_TranslucentBackground, True)
+        Prueba.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        Prueba.setIconSize(pixmap.rect().size())
+        Prueba.resize(212, 200)
+        Prueba.setStyleSheet("border-radius: 5px; color: white; background: rgb(165,165,165); border: 2px solid white;")
+        Prueba.move(int(1060 / 2 - 150 / 2), int(820 / 2 - 40 / 2))
+        Prueba.clicked.connect(self.inicio_lcd)
 
 # ------------------------------------------Titulo------------------------------------------------#
         pixmap = QPixmap("Imagenes\Carrera.png")
@@ -96,11 +97,29 @@ class MainWindow(QMainWindow):
         titulo.move(int(370 / 2 - 150 / 2), int(- 540 / 2 - 40 / 2))
 
 # ------------------------------------------Cronometro------------------------------------------------#
-        lcd = QLCDNumber(self)
-        lcd.setAttribute(Qt.WA_TranslucentBackground, True)
-        lcd.display(0)
-        lcd.resize(200, 100)
-        lcd.move(975, 50)
+        self.lcd = QLCDNumber(self)
+        self.lcd.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.lcd.display(0)
+        self.lcd.resize(200, 100)
+        self.lcd.move(975, 50)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.iniciar_timer)
+        self.timer.setInterval(1000)
+        self.time = 0
+
+    def iniciar_timer(self):
+        self.time += 1
+        m = self.time / 60
+        s = self.time % 60
+        hora = str("%002d:%002d" %(m, s))
+        self.lcd.display(hora)
+        if self.time > 100:
+            self.timer.stop()
+
+    def inicio_lcd(self):
+        QMessageBox.information(self, "Carrera", "La carrera a iniciado", QMessageBox.Ok)
+        self.time = 0
+        self.timer.start()
 
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
