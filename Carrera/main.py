@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 
 
 class WorkerSignals(QObject):
-    data = pyqtSignal(tuple)
+    data = pyqtSignal(int, int)
 
 
 class Worker(QRunnable):
@@ -66,35 +66,35 @@ class MainWindow(QMainWindow):
         bg = QLabel(self)
         pixmap = pixmap.scaled(1200, 1200, Qt.KeepAspectRatio, Qt.FastTransformation)
         bg.setPixmap(pixmap)
-
         lo = QHBoxLayout()
         lo.addWidget(bg)
         widget = QWidget()
         widget.setLayout(lo)
         self.setCentralWidget(widget)
+
 # ------------------------------------------Boton------------------------------------------------#
    # Esta parte aun no la arreglo, el icono del boton no se asigna bien y no se hace transparente xD
     
-        Prueba = QPushButton(self)
+        self.Prueba = QPushButton(self)
         botn = QPixmap("Imagenes\Boton.png")
         ico = QIcon(botn)
-        Prueba.setIcon(ico)
-        Prueba.setAttribute(Qt.WA_TranslucentBackground, True)
-        Prueba.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        Prueba.setIconSize(pixmap.rect().size())
-        Prueba.resize(212, 200)
-        Prueba.setStyleSheet("border-radius: 5px; color: white; background: rgb(165,165,165); border: 2px solid white;")
-        Prueba.move(int(1060 / 2 - 150 / 2), int(820 / 2 - 40 / 2))
-        Prueba.clicked.connect(self.inicio_lcd)
+        self.Prueba.setIcon(ico)
+        self.Prueba.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.Prueba.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.Prueba.setIconSize(pixmap.rect().size())
+        self.Prueba.resize(212, 200)
+        self.Prueba.setStyleSheet("border-radius: 5px; color: white; background: rgb(165,165,165); border: 2px solid white;")
+        self.Prueba.move(int(1060 / 2 - 150 / 2), int(820 / 2 - 40 / 2))
+        self.Prueba.clicked.connect(self.iniciarCarrera)
 
 # ------------------------------------------Titulo------------------------------------------------#
         pixmap = QPixmap("Imagenes\Carrera.png")
-        titulo = QLabel(self)
+        self.titulo = QLabel(self)
         pixmap = pixmap.scaled(1000, 1000, Qt.KeepAspectRatio, Qt.FastTransformation)
-        titulo.setAttribute(Qt.WA_TranslucentBackground, True)
-        titulo.setPixmap(pixmap)
-        titulo.resize(1000, 130)
-        titulo.move(120, 150)
+        self.titulo.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.titulo.setPixmap(pixmap)
+        self.titulo.resize(1000, 130)
+        self.titulo.move(120, 150)
 
 # ------------------------------------------Cronometro------------------------------------------------#
         self.lcd = QLCDNumber(self)
@@ -106,6 +106,36 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.iniciar_timer)
         self.timer.setInterval(1000)
         self.time = 0
+        self.lcd.hide()
+
+# ------------------------------------------Liebre------------------------------------------------#
+        mapLiebre = QPixmap("Imagenes\Liebre.png")
+        self.liebre = QLabel(self)
+        mapLiebre = mapLiebre.scaled(200, 200, Qt.KeepAspectRatio, Qt.FastTransformation)
+        self.liebre.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.liebre.setPixmap(mapLiebre)
+        self.liebre.resize(200, 180)
+        self.liebre.move(5, 180)
+        self.liebre.hide()
+
+# ------------------------------------------Tortuga------------------------------------------------#
+        mapTortuga = QPixmap("Imagenes\Tortuga.png")
+        self.tortuga = QLabel(self)
+        mapTortuga = mapTortuga.scaled(200, 200, Qt.KeepAspectRatio, Qt.FastTransformation)
+        self.tortuga.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.tortuga.setPixmap(mapTortuga)
+        self.tortuga.resize(200, 200)
+        self.tortuga.move(5, 325)
+        self.tortuga.hide()
+
+    def iniciarCarrera(self):
+        self.inicio_lcd()
+        self.titulo.hide()
+        self.liebre.show()
+        self.tortuga.show()
+        self.lcd.show()
+        self.Prueba.hide()
+        self.Prueba.setEnabled(False)
 
     def iniciar_timer(self):
         self.time += 1
@@ -117,7 +147,6 @@ class MainWindow(QMainWindow):
             self.timer.stop()
 
     def inicio_lcd(self):
-        QMessageBox.information(self, "Carrera", "La carrera a iniciado", QMessageBox.Ok)
         self.time = 0
         self.timer.start()
 
