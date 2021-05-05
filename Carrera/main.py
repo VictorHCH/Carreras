@@ -73,12 +73,16 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
 
 # ------------------------------------------Boton------------------------------------------------#
-    
-        self.Comenzar = QPushButton("Comenzar! ",self)
+        botn = QPixmap("Imagenes\Boton.png")
+        botn = botn.scaled(150, 115)
+        ico = QIcon(botn)
+        self.Comenzar = QPushButton(self)
+        self.Comenzar.setIcon(ico)
+        self.Comenzar.setIconSize(pixmap.rect().size())
         self.Comenzar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.Comenzar.setStyleSheet("border-radius: 5px; color: Blue; background:cyan; border: 2px solid white;")
-        self.Comenzar.resize(190, 100)
-        self.Comenzar.move(int(1250 / 2 - 190 / 2), int(820 / 2 - 40 / 2))
+        self.Comenzar.setStyleSheet("border-radius: 30px; color: Blue; background:cyan; border: 2px solid white;")
+        self.Comenzar.resize(148, 115) #(245, 185)
+        self.Comenzar.move(int(1320 / 2 - 220 / 2), int(820 / 2 - 140 / 2))
         self.Comenzar.clicked.connect(self.iniciarCarrera)
         #self.Comenzar.clicked.connect(self.ganador) (Evento para probar la ventana)
 
@@ -213,7 +217,7 @@ class podio(QMainWindow):
         widget.setLayout(lo)
         self.setCentralWidget(widget)
 
-        #winner = False (Para probar las posiciones)
+        winner = False #(Para probar las posiciones)
 #------------------------------------Animales------------------------------------------------------"
         mapLiebre = QPixmap("Imagenes\Liebre.png")
         mapLiebre = mapLiebre.scaled(320, 320, Qt.KeepAspectRatio, Qt.FastTransformation)
