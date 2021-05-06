@@ -1,21 +1,37 @@
 import sys
+import random
+import time
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 
+bn = True
+
+
 class WorkerSignals(QObject):
-    data = pyqtSignal(int, int)
+    avanzar = pyqtSignal(int, int)
 
 
 class Worker(QRunnable):
-    def __init__(self):
+    def __init__(self, animal, avance):
         super().__init__()
         self.signals = WorkerSignals()
+        self.animal = animal
+        self.avance = avance
+        self.movi = 0
 
     @pyqtSlot()
     def run(self):
-        pass
+        global bn
+        while self.movi < 110 and bn:
+            idx = random.randint(0, 4)
+            print(self.animal, " ", self.avance[idx])
+            self.movi += self.avance[idx]
+            if self.movi >= 110:
+                bn = False
+            self.signals.avanzar.emit(self.animal, int(self.movi * 10))
+            time.sleep(0.1)
 
 
 class MainWindow(QMainWindow):
@@ -71,6 +87,8 @@ class MainWindow(QMainWindow):
         widget = QWidget()
         widget.setLayout(lo)
         self.setCentralWidget(widget)
+        self.threadpool = QThreadPool()
+        self.movimientos = [3, 2, 1, -1, -2], [6, 3, 0, -3, -6]
 
 # ------------------------------------------Boton------------------------------------------------#
         botn = QPixmap("Imagenes\Boton.png")
@@ -84,7 +102,6 @@ class MainWindow(QMainWindow):
         self.Comenzar.resize(148, 115) #(245, 185)
         self.Comenzar.move(int(1320 / 2 - 220 / 2), int(820 / 2 - 140 / 2))
         self.Comenzar.clicked.connect(self.iniciarCarrera)
-        #self.Comenzar.clicked.connect(self.ganador) (Evento para probar la ventana)
 
 # ------------------------------------------Titulo------------------------------------------------#
 
@@ -137,6 +154,28 @@ class MainWindow(QMainWindow):
         self.lcd.show()
         self.Comenzar.hide()
         self.Comenzar.setEnabled(False)
+        for i in range(2):
+            tarea = Worker(i, self.movimientos[i])
+            tarea.signals.avanzar.connect(self.actualizarPista)
+            self.threadpool.start(tarea)
+
+    def actualizarPista(self, animal, avanzar):
+        if animal == 0:
+            if avanzar < 1100:
+                self.tortuga.move(avanzar, 310)
+            else:
+                self.tortuga.move(avanzar, 310)
+                self.timer.stop()
+                self.ganador(False)
+                print("Gano la Tortuga")
+        else:
+            if avanzar < 1100:
+                self.liebre.move(avanzar, 180)
+            else:
+                self.liebre.move(avanzar, 180)
+                self.timer.stop()
+                self.ganador(True)
+                print("Gano la Liebre")
 
     def iniciar_timer(self):
         self.time += 1
@@ -165,14 +204,15 @@ class MainWindow(QMainWindow):
     def cerrar(self):
         self.close()
 
-    def ganador(self):
-        self.pod = podio()
+    def ganador(self, winner):
+        self.pod = podio(winner)
         self.pod.show()
 
-class podio(QMainWindow):
-    def __init__(self):
-        super().__init__()
 
+class podio(QMainWindow):
+    def __init__(self, winner):
+        super().__init__()
+        self.winner = winner
 #----------------------------------------------------Ventana-----------------------------------------------#
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
@@ -217,12 +257,12 @@ class podio(QMainWindow):
         widget.setLayout(lo)
         self.setCentralWidget(widget)
 
-        winner = False #(Para probar las posiciones)
 #------------------------------------Animales------------------------------------------------------"
         mapLiebre = QPixmap("Imagenes\Liebre.png")
         mapLiebre = mapLiebre.scaled(320, 320, Qt.KeepAspectRatio, Qt.FastTransformation)
         mapTortuga = QPixmap("Imagenes\Tortuga.png")
         mapTortuga = mapTortuga.scaled(320, 320, Qt.KeepAspectRatio, Qt.FastTransformation)
+
 #---------------------------------Etiquteas--------------------------------#
         self.uno = QLabel(self)
         self.uno.setAttribute(Qt.WA_TranslucentBackground, True)
