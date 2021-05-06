@@ -28,10 +28,10 @@ class Worker(QRunnable):
             idx = random.randint(0, 4)
             print(self.animal, " ", self.avance[idx])
             self.movi += self.avance[idx]
-            if self.movi >= 110:
-                bn = False
             self.signals.avanzar.emit(self.animal, int(self.movi * 10))
-            time.sleep(0.1)
+            time.sleep(0.5)
+        if self.movi >= 110:
+            bn = False
 
 
 class MainWindow(QMainWindow):
@@ -39,7 +39,8 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.switch = True
-
+        self.setWindowTitle("Carrera")
+        self.setWindowIcon(QIcon("Imagenes\Minimizar.png"))
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setStyleSheet("background: rgb(242,242,242,250); color: black; border-top-right-radius: 0px;"
                            " border-top-right-radius : 0px;"
@@ -133,7 +134,7 @@ class MainWindow(QMainWindow):
         self.liebre.setAttribute(Qt.WA_TranslucentBackground, True)
         self.liebre.setPixmap(mapLiebre)
         self.liebre.resize(200, 180)
-        self.liebre.move(5, 180)
+        self.liebre.move(5, 310)
         self.liebre.hide()
 
 # ------------------------------------------Tortuga------------------------------------------------#
@@ -143,7 +144,7 @@ class MainWindow(QMainWindow):
         self.tortuga.setAttribute(Qt.WA_TranslucentBackground, True)
         self.tortuga.setPixmap(mapTortuga)
         self.tortuga.resize(200, 200)
-        self.tortuga.move(5, 310)
+        self.tortuga.move(5, 180)
         self.tortuga.hide()
 
     def iniciarCarrera(self):
@@ -162,17 +163,17 @@ class MainWindow(QMainWindow):
     def actualizarPista(self, animal, avanzar):
         if animal == 0:
             if avanzar < 1100:
-                self.tortuga.move(avanzar, 310)
+                self.tortuga.move(avanzar, 180)
             else:
-                self.tortuga.move(avanzar, 310)
+                self.tortuga.move(avanzar, 180)
                 self.timer.stop()
                 self.ganador(False)
                 print("Gano la Tortuga")
         else:
             if avanzar < 1100:
-                self.liebre.move(avanzar, 180)
+                self.liebre.move(avanzar, 310)
             else:
-                self.liebre.move(avanzar, 180)
+                self.liebre.move(avanzar, 310)
                 self.timer.stop()
                 self.ganador(True)
                 print("Gano la Liebre")
@@ -214,6 +215,8 @@ class podio(QMainWindow):
         super().__init__()
         self.winner = winner
 #----------------------------------------------------Ventana-----------------------------------------------#
+        self.setWindowTitle("Podio")
+        self.setWindowIcon(QIcon("Imagenes\Minimizar.png"))
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setStyleSheet("background: rgb(242,242,242,250); color: black; border-top-right-radius: 0px;"
