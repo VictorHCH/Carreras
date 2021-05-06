@@ -26,10 +26,9 @@ class Worker(QRunnable):
         global bn
         while self.movi < 110 and bn:
             idx = random.randint(0, 4)
-            print(self.animal, " ", self.avance[idx])
             self.movi += self.avance[idx]
             self.signals.avanzar.emit(self.animal, int(self.movi * 10))
-            time.sleep(0.5)
+            time.sleep(5)
         if self.movi >= 110:
             bn = False
 
@@ -168,7 +167,6 @@ class MainWindow(QMainWindow):
                 self.tortuga.move(avanzar, 180)
                 self.timer.stop()
                 self.ganador(False)
-                print("Gano la Tortuga")
         else:
             if avanzar < 1100:
                 self.liebre.move(avanzar, 310)
@@ -176,7 +174,6 @@ class MainWindow(QMainWindow):
                 self.liebre.move(avanzar, 310)
                 self.timer.stop()
                 self.ganador(True)
-                print("Gano la Liebre")
 
     def iniciar_timer(self):
         self.time += 1
@@ -249,6 +246,7 @@ class podio(QMainWindow):
         self.barra2.addWidget(izquierda)
         self.barra2.addWidget(self.titulo)
         self.barra2.addWidget(derecha)
+
 #--------------------------------------------Fondo--------------------------------------#
         pixmap = QPixmap("Imagenes\podio.png")
         bg = QLabel(self)
