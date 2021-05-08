@@ -28,7 +28,7 @@ class Worker(QRunnable):
             idx = random.randint(0, 4)
             self.movi += self.avance[idx]
             self.signals.avanzar.emit(self.animal, int(self.movi * 10))
-            time.sleep(5)
+            time.sleep(0.05)
         if self.movi >= 110:
             bn = False
 
@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
             self.threadpool.start(tarea)
 
     def actualizarPista(self, animal, avanzar):
+        self.avanzar = avanzar
         if animal == 0:
             if avanzar < 1100:
                 self.tortuga.move(avanzar, 180)
@@ -181,8 +182,6 @@ class MainWindow(QMainWindow):
         s = self.time % 60
         hora = str("%002d:%002d" %(m, s))
         self.lcd.display(hora)
-        if self.time > 100:
-            self.timer.stop()
 
     def inicio_lcd(self):
         self.time = 0
