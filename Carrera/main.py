@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
 
         self.switch = True
         self.setWindowTitle("Carrera")
-        self.setWindowIcon(QIcon("Imagenes\Minimizar.png"))
+        self.setWindowIcon(QIcon("Imagenes/asd.png"))
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setStyleSheet("background: rgb(242,242,242,250); color: black; border-top-right-radius: 0px;"
                            " border-top-right-radius : 0px;"
@@ -210,7 +210,7 @@ class podio(QMainWindow):
     def __init__(self, winner):
         super().__init__()
         self.winner = winner
-#----------------------------------------------------Ventana-----------------------------------------------#
+#--------------------------------   --------------------Ventana-----------------------------------------------#
         self.setWindowTitle("Podio")
         self.setWindowIcon(QIcon("Imagenes\Minimizar.png"))
         self.setWindowFlags(Qt.FramelessWindowHint)
